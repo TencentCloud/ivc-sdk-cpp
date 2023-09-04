@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package ivc;
+option go_package = "../servicePb;IvcpRpcPb";
+
+service ivcp{
+    /******************************设备主动*******************************/
+    //设备获取区域服务器地址
+    rpc IvcpGetSvrIpMsg (RpcReqData) returns (RpcResData) {}
+    //设备登录
+    rpc IvcpRegisterMsg (RpcReqData) returns (RpcResData) {}
+    //设备退出登录
+    rpc IvcpUnRegisterMsg (RpcReqData) returns (RpcResData) {}
+    //设备保活
+    rpc IvcpKeepAliveMsg (RpcReqData) returns (RpcResData) {}
+    //设备获取新的cos授权
+    rpc IvcpGetNewSecMsg (RpcReqData) returns (RpcResData) {}
+    //设备上传图片元数据
+    rpc IvcpUploadImageMedaDataMsg (RpcReqData) returns (RpcResData) {}
+    //设备上传短视频元数据
+    rpc IvcpUploadVideoSliceMetaDataMsg (RpcReqData) returns (RpcResData) {}
+    //设备上报Nat数据
+    rpc IvcpReportNatInfoMsg(RpcReqData) returns (RpcResData) {}
+    
+     /******************************设备被动*******************************/
+    //设备返回查询基本信息
+    rpc IvcpRspDeviceBaseInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回查询通道信息
+    rpc IvcpRspDeviceChannelInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回查询视频信息
+    rpc IvcpRspDeviceVideoInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回查询录像信息
+    rpc IvcpRspDeviceRecordInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回修改基本信息
+    rpc IvcpRspModifyDeviceBaseInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回修改视频信息
+    rpc IvcpRspModifyDeviceVideoInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回修改录像信息
+    rpc IvcpRspModifyDeviceRecordInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回视频上云请求
+    rpc IvcpRspPullStreamToCloudMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回视频上cos请求
+    rpc IvcpRspPullStreamToCosMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回查询固件新版本详情
+    rpc IvcpRspGetVersionInfoMsg (RpcReqData) returns (RpcResData) {}
+    //设备返回固件升级请求
+    rpc IvcpRspUpdateVersionInfoMsg (RpcReqData) returns (RpcResData) {}
+
+    /******************************双向流*******************************/
+    //设备打通服务器主动推送通道
+    rpc IvcpPollingMsg(StreamReqData)  returns (stream StreamResData) {}
+}
+
+// 普通请求数据格式
+message RpcReqData{
+    bytes data = 2;
+}
+
+// 普通返回数据格式
+message RpcResData{
+    bytes data = 2;
+}
+
+// 流式请求数据格式
+message StreamReqData{
+    string  DeviceID = 1;
+}
+
+// 流式返回数据格式
+message StreamResData{
+    int32 msg_type = 1;
+    bytes data = 2;
+}
+
+
+// 上传图片数据格式
+message ImageDataReqData{
+    string  ImageId = 1;
+    bytes data = 2;
+}
+
+// 上传图片数据返回格式
+message ImageDataResData{
+    string  ImageId = 1;
+    bytes data = 2;
+}
